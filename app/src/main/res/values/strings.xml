@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">OceanApp</string>
+    <string-array name="spnEmbarcacion">
+        <item>Embarcacion 1</item>
+        <item>Embarcacion 2</item>
+        <item>Embarcacion 3</item>
+        <item>Embarcacion 4</item>
+    </string-array>
+    <string-array name="spnPuertoZarpe">
+        <item>Puerto Zarpe 1</item>
+        <item>Puerto Zarpe 2</item>
+        <item>Puerto Zarpe 3</item>
+        <item>Puerto Zarpe 4</item>
+    </string-array>
+    <string-array name="spnPuertoArribo">
+        <item>Puerto Arribo 1</item>
+        <item>Puerto Arribo 2</item>
+        <item>Puerto Arribo 3</item>
+        <item>Puerto Arribo 4</item>
+    </string-array>
+
+    <string-array name="spnObjetivo">
+        <item>Objetivo 1</item>
+        <item>Objetivo 2</item>
+        <item>Objetivo 3</item>
+        <item>Objetivo 4</item>
+    </string-array>
+</resources>
