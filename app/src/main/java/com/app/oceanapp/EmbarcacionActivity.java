@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,7 +19,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class Embarcacion extends AppCompatActivity {
+public class EmbarcacionActivity extends AppCompatActivity {
 
     TextView txtFechaZarpado;
     TextView txtHoraZarpado;
@@ -44,7 +43,7 @@ public class Embarcacion extends AppCompatActivity {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        Embarcacion.this,
+                        EmbarcacionActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         year, month, day);
@@ -60,7 +59,7 @@ public class Embarcacion extends AppCompatActivity {
                 int mHour = c.get(Calendar.HOUR_OF_DAY);
                 int mMinute = c.get(Calendar.MINUTE);
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(Embarcacion.this,
+                TimePickerDialog timePickerDialog = new TimePickerDialog(EmbarcacionActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
@@ -82,25 +81,25 @@ public class Embarcacion extends AppCompatActivity {
         };
 
         Spinner spnEmbarcacion = findViewById(R.id.spnEmbarcacion);
-        ArrayAdapter<CharSequence> adapterSpnTurno = ArrayAdapter.createFromResource(Embarcacion.this, R.array.spnEmbarcacion,
+        ArrayAdapter<CharSequence> adapterSpnTurno = ArrayAdapter.createFromResource(EmbarcacionActivity.this, R.array.spnEmbarcacion,
                 android.R.layout.simple_spinner_item);
         adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnEmbarcacion.setAdapter(adapterSpnTurno);
 
         Spinner spnPuertoZarpe = findViewById(R.id.spnPuertoZarpe);
-        ArrayAdapter<CharSequence> adapterPuertoZarpe = ArrayAdapter.createFromResource(Embarcacion.this, R.array.spnPuertoZarpe,
+        ArrayAdapter<CharSequence> adapterPuertoZarpe = ArrayAdapter.createFromResource(EmbarcacionActivity.this, R.array.spnPuertoZarpe,
                 android.R.layout.simple_spinner_item);
         adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnPuertoZarpe.setAdapter(adapterPuertoZarpe);
 
         Spinner spnPuertoArribo = findViewById(R.id.spnPuertoArribo);
-        ArrayAdapter<CharSequence> adapterPuertoArribo = ArrayAdapter.createFromResource(Embarcacion.this, R.array.spnPuertoArribo,
+        ArrayAdapter<CharSequence> adapterPuertoArribo = ArrayAdapter.createFromResource(EmbarcacionActivity.this, R.array.spnPuertoArribo,
                 android.R.layout.simple_spinner_item);
         adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnPuertoArribo.setAdapter(adapterPuertoArribo);
 
         Spinner spnObjetivo = findViewById(R.id.spnObjetivo);
-        ArrayAdapter<CharSequence> adapterObjetivo = ArrayAdapter.createFromResource(Embarcacion.this, R.array.spnObjetivo,
+        ArrayAdapter<CharSequence> adapterObjetivo = ArrayAdapter.createFromResource(EmbarcacionActivity.this, R.array.spnObjetivo,
                 android.R.layout.simple_spinner_item);
         adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnObjetivo.setAdapter(adapterObjetivo);
@@ -114,7 +113,7 @@ public class Embarcacion extends AppCompatActivity {
     }
 
     public void moveToRegisterThrow(){
-        Intent intent = new Intent(Embarcacion.this, LanceActivity.class);
+        Intent intent = new Intent(EmbarcacionActivity.this, LanceActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         Toast.makeText(getApplicationContext(),"BIENVENIDO", Toast.LENGTH_SHORT).show();

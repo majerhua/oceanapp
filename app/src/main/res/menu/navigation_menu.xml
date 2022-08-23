@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu_general"
+    >
+    <item
+        android:id="@+id/inicio"
+        android:icon="@drawable/ic_baseline"
+        android:title="Inicio"
+        />
+    <item
+        android:id="@+id/embarcacion"
+        android:icon="@drawable/ic_approval"
+        android:title="Embarcación"
+        />
+    <item
+        android:id="@+id/lance"
+        android:icon="@drawable/ic_all_inclusive"
+        android:title="Lacen"
+        />
+</menu>

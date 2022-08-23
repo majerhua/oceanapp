@@ -1,28 +1,63 @@
 <resources>
     <string name="app_name">OceanApp</string>
     <string-array name="spnEmbarcacion">
-        <item>Embarcacion 1</item>
-        <item>Embarcacion 2</item>
-        <item>Embarcacion 3</item>
-        <item>Embarcacion 4</item>
+        <item>ALESSANDRO</item>
+        <item>ALEXANDRA</item>
+        <item>CONSTANZA</item>
+        <item>CORINA</item>
+        <item>DANIELLA</item>
+        <item>DON JUAN</item>
+        <item>FABIOLA</item>
+        <item>GABRIELA V</item>
+        <item>GIANNINA I</item>
+        <item>GRACIELA</item>
+        <item>ISABELLA</item>
+        <item>MARIA JOSE</item>
+        <item>NATALIA</item>
+        <item>OLGA</item>
+        <item>PATRICIA</item>
+        <item>PISCO 1</item>
+        <item>POLAR III</item>
+        <item>POLAR IV</item>
+        <item>POLAR VI</item>
+        <item>POLAR VII</item>
+        <item>SEBASTIAN</item>
+        <item>STEFANO</item>
     </string-array>
     <string-array name="spnPuertoZarpe">
-        <item>Puerto Zarpe 1</item>
-        <item>Puerto Zarpe 2</item>
-        <item>Puerto Zarpe 3</item>
-        <item>Puerto Zarpe 4</item>
+        <item>CALLAO</item>
+        <item>HUACHO</item>
+        <item>TAMBO DE MORA</item>
+        <item>CHIMBOTE</item>
+        <item>MALABRIGO</item>
+        <item>ATICO</item>
+        <item>BAYOVAR</item>
+        <item>CARQUIN</item>
+        <item>CASMA</item>
+        <item>CHANCAY</item>
+        <item>COISHCO</item>
+        <item>PARACAS</item>
+        <item>SECHURA</item>
     </string-array>
     <string-array name="spnPuertoArribo">
-        <item>Puerto Arribo 1</item>
-        <item>Puerto Arribo 2</item>
-        <item>Puerto Arribo 3</item>
-        <item>Puerto Arribo 4</item>
+        <item>CALLAO</item>
+        <item>HUACHO</item>
+        <item>TAMBO DE MORA</item>
+        <item>CHIMBOTE</item>
+        <item>MALABRIGO</item>
+        <item>ATICO</item>
+        <item>BAYOVAR</item>
+        <item>CARQUIN</item>
+        <item>CASMA</item>
+        <item>CHANCAY</item>
+        <item>COISHCO</item>
+        <item>PARACAS</item>
     </string-array>
 
     <string-array name="spnObjetivo">
-        <item>Objetivo 1</item>
-        <item>Objetivo 2</item>
-        <item>Objetivo 3</item>
-        <item>Objetivo 4</item>
+        <item>ANCHOVETA</item>
+        <item>JUREL/CABALLA</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

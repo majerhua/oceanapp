@@ -92,18 +92,18 @@ public class LanceActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String embarcacion = parentView.getItemAtPosition(position).toString();
 
-                if( embarcacion.trim().equals("Embarcacion 1")){
+                if( embarcacion.trim().equals("EmbarcacionActivity 1")){
                     txtPuertoEmbarcacion.setText("Puerto embarcacion 1");
-                    txtNombreEmbarcacion.setText("Embarcacion 1");
-                }else if(embarcacion.trim().equals("Embarcacion 2")){
+                    txtNombreEmbarcacion.setText("EmbarcacionActivity 1");
+                }else if(embarcacion.trim().equals("EmbarcacionActivity 2")){
                     txtPuertoEmbarcacion.setText("Puerto embarcacion 2");
-                    txtNombreEmbarcacion.setText("Embarcacion 2");
-                }else if(embarcacion.trim().equals("Embarcacion 3")){
+                    txtNombreEmbarcacion.setText("EmbarcacionActivity 2");
+                }else if(embarcacion.trim().equals("EmbarcacionActivity 3")){
                     txtPuertoEmbarcacion.setText("Puerto embarcacion 3");
-                    txtNombreEmbarcacion.setText("Embarcacion 3");
+                    txtNombreEmbarcacion.setText("EmbarcacionActivity 3");
                 }else {
                     txtPuertoEmbarcacion.setText("Puerto embarcacion 4");
-                    txtNombreEmbarcacion.setText("Embarcacion 4");
+                    txtNombreEmbarcacion.setText("EmbarcacionActivity 4");
                 }
             }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main.xml"
+    app:startDestination="@id/inicio">
+    <fragment
+        android:id="@+id/embarcacion"
+        android:name="com.app.oceanapp.EmbarcacionFragment"
+        android:label="fragment_embarcacion"
+        tools:layout="@layout/fragment_embarcacion" />
+    <fragment
+        android:id="@+id/lance"
+        android:name="com.app.oceanapp.LanceFragment"
+        android:label="fragment_lance"
+        tools:layout="@layout/fragment_lance" />
+    <fragment
+        android:id="@+id/inicio"
+        android:name="com.app.oceanapp.InicioFragment"
+        android:label="fragment_inicio"
+        tools:layout="@layout/fragment_inicio" />
+</navigation>
