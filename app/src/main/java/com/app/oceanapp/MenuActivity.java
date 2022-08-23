@@ -7,10 +7,15 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
+import com.app.oceanapp.constantes.Utils;
+import com.app.oceanapp.repositories.local.usuario.SessionManagement;
 import com.google.android.material.navigation.NavigationView;
 
 public class MenuActivity extends AppCompatActivity {
@@ -35,6 +40,30 @@ public class MenuActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView,navController);
 
         View headerView = navigationView.getHeaderView(0);
+
+        SessionManagement sessionManagement = new SessionManagement(this);
+
+
+
+
+        System.out.println("NAME: "+sessionManagement.getNameUseSession());
+
+        TextView navUsername = (TextView) headerView.findViewById(R.id.name_user);
+        TextView txtRol = (TextView) headerView.findViewById(R.id.txtRol);
+        navUsername.setText(sessionManagement.getNameUseSession());
+
+        String rol = "";
+
+        if(sessionManagement.getRolUserSession().equals(Utils.rol_administrador)) {
+            rol = "Administrador";
+        }else if(sessionManagement.getRolUserSession().equals(Utils.rol_biologo_marino)) {
+            rol = "Biólogo Marino";
+        }else if(sessionManagement.getRolUserSession().equals(Utils.rol_tecnico_tripulante)) {
+            rol = "Técnico Tripulante";
+        }
+
+        txtRol.setText(rol);
+
 
     }
 }

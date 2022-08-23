@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.oceanapp.entity.Usuario;
 import com.app.oceanapp.entity.UsuarioResponse;
+import com.app.oceanapp.repositories.local.usuario.SessionManagement;
 import com.app.oceanapp.repositories.remote.ServiceFactory;
 import com.app.oceanapp.repositories.remote.request.UsuarioService;
 
@@ -74,13 +76,14 @@ public class LoginActivity extends AppCompatActivity {
                         UsuarioResponse usuario = response.body();
 
                         if(usuario.getCode() == 1){
+                            SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+                            sessionManagement.saveSession(new Usuario(usuario.getMessage(),usuario.getUsername(),usuario.getCode(), usuario.getRol()));
                             moveToRegisterVessel();
                         }else{
                             Toast.makeText(LoginActivity.this,"USUARIO O PASSWORD INCORRECTO",
                                     Toast.LENGTH_LONG).show();
                         }
                     }
-
                     hideProgressDialog();
                 }
 

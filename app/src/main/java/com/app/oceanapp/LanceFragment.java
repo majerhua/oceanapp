@@ -7,6 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.app.oceanapp.entity.Embarcacion;
+import com.app.oceanapp.persistencia.EmbarcacionPersistencia;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +62,42 @@ public class LanceFragment extends Fragment {
         }
     }
 
+    TextView txtMatriculaLance;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lance, container, false);
+        View v = inflater.inflate(R.layout.fragment_lance, container, false);
+
+        txtMatriculaLance = v.findViewById(R.id.txtMatriculaLance);
+
+        Spinner spnEmbarcacion = v.findViewById(R.id.spnEmbarcacionLance);
+        ArrayAdapter<CharSequence> adapterSpnTurno = ArrayAdapter.createFromResource(getContext(), R.array.spnEmbarcacion,
+                android.R.layout.simple_spinner_item);
+        adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnEmbarcacion.setAdapter(adapterSpnTurno);
+
+        spnEmbarcacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String embarcacion = parentView.getItemAtPosition(position).toString();
+
+                for(Embarcacion embar: EmbarcacionPersistencia.getEmbarcaciones()) {
+                    if (embar.getNombre().equals(embarcacion)) {
+                        txtMatriculaLance.setText(embar.getMatricula());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+        return v;
     }
 }
