@@ -33,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkSession();
+
         btnLogin = findViewById(R.id.btnLogin);
         txtUsername = findViewById(R.id.txtUsername);
         txtPassword = findViewById(R.id.txtPassword);
@@ -43,6 +45,14 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
+    }
+
+    private void checkSession(){
+        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+        int userId = sessionManagement.getSession();
+        if(userId != -1){
+            moveToRegisterVessel();
+        }
     }
 
     public void moveToRegisterVessel(){

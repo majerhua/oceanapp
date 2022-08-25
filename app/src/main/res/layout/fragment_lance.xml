@@ -37,9 +37,9 @@
             app:layout_constraintVertical_bias="0.072" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/editTextNumeroLance"
             android:layout_width="70sp"
-            android:layout_height="35sp"
+            android:layout_height="40sp"
             android:ems="10"
             android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.104"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNumeroLance"
             app:layout_constraintVertical_bias="0.038" />
 
         <TextView
@@ -72,7 +72,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.427"
             app:layout_constraintStart_toEndOf="@+id/textView16"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNumeroLance"
             app:layout_constraintVertical_bias="0.036" />
 
         <TextView
@@ -100,7 +100,7 @@
             app:layout_constraintVertical_bias="0.035" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnRegistrarLance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#3F51B5"
@@ -161,17 +161,17 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintHorizontal_bias="0.102"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView22"
-            app:layout_constraintVertical_bias="0.085" />
+            app:layout_constraintVertical_bias="0.123" />
 
         <EditText
-            android:id="@+id/editLongitud"
+            android:id="@+id/editTextLatitud"
             android:layout_width="70sp"
-            android:layout_height="35sp"
+            android:layout_height="40sp"
             android:ems="10"
-            android:inputType="number|textPersonName"
+            android:inputType="number|numberDecimal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.358"
@@ -180,29 +180,29 @@
             app:layout_constraintVertical_bias="0.113" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName4"
+            android:id="@+id/editTextRumbo"
             android:layout_width="174dp"
-            android:layout_height="35sp"
+            android:layout_height="40sp"
             android:ems="10"
             android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.746"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
+            app:layout_constraintTop_toBottomOf="@+id/editTextLongitud"
             app:layout_constraintVertical_bias="0.041" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/editTextLongitud"
             android:layout_width="70sp"
-            android:layout_height="35sp"
+            android:layout_height="40sp"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="number|numberDecimal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.519"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editLongitud"
+            app:layout_constraintTop_toBottomOf="@+id/editTextLatitud"
             app:layout_constraintVertical_bias="0.049" />
 
         <TextView
@@ -238,10 +238,10 @@
             android:text="....."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.096"
+            app:layout_constraintHorizontal_bias="0.12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView29"
-            app:layout_constraintVertical_bias="0.104" />
+            app:layout_constraintVertical_bias="0.128" />
 
         <Spinner
             android:id="@+id/spnEmbarcacionLance"
@@ -249,9 +249,9 @@
             android:layout_height="35sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.263"
+            app:layout_constraintHorizontal_bias="0.273"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView27"
-            app:layout_constraintVertical_bias="0.086" />
+            app:layout_constraintVertical_bias="0.088" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

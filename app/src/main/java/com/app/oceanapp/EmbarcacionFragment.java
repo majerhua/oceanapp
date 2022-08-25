@@ -1,6 +1,7 @@
 package com.app.oceanapp;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,14 +16,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.app.oceanapp.entity.Embarcacion;
+import com.app.oceanapp.entity.RegisterResponse;
 import com.app.oceanapp.persistencia.EmbarcacionPersistencia;
+import com.app.oceanapp.repositories.remote.ServiceFactory;
+import com.app.oceanapp.repositories.remote.request.EmbarcacionService;
 
 import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,11 +81,14 @@ public class EmbarcacionFragment extends Fragment {
         }
     }
 
+    ProgressDialog progressDialog;
     TextView txtFechaZarpado;
     TextView txtHoraZarpado;
     TextView txtMatricula;
+    EditText editTxtComentario;
     DatePickerDialog.OnDateSetListener mDateSetListener;
     Button btnRegistrar;
+    String fechaZarpe = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +99,7 @@ public class EmbarcacionFragment extends Fragment {
         txtFechaZarpado = v.findViewById(R.id.txtFechaZarpado);
         txtHoraZarpado = v.findViewById(R.id.txtHoraZarpado);
         txtMatricula = v.findViewById(R.id.txtMatricula);
+        editTxtComentario = v.findViewById(R.id.editTxtComentario);
         btnRegistrar = v.findViewById(R.id.btnRegistrar);
 
         txtFechaZarpado.setOnClickListener(new View.OnClickListener(){
@@ -129,6 +143,7 @@ public class EmbarcacionFragment extends Fragment {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 String date = dayOfMonth + "-" + month + "-" +year ;
+                fechaZarpe = year + "-"+month + "-" + dayOfMonth;
                 txtFechaZarpado.setText(date);
             }
         };
@@ -182,10 +197,74 @@ public class EmbarcacionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                String embarcacion = spnEmbarcacion.getSelectedItem().toString();
+                String matricula = txtMatricula.getText().toString();
+                String puertoZarpe = spnPuertoZarpe.getSelectedItem().toString();
+                String horaZarpe = txtHoraZarpado.getText().toString();
+                String puertoArribo = spnPuertoArribo.getSelectedItem().toString();
+                String objetivo = spnObjetivo.getSelectedItem().toString();
+                String comentario = editTxtComentario.getText().toString();
+
+                if(fechaZarpe.equals("")) {
+                    Toast.makeText(getContext(),"El campo fecha de zarpe no puede estar vacio",Toast.LENGTH_LONG).show();
+                }else if(horaZarpe.equals("Clic aquí")) {
+                    Toast.makeText(getContext(),"El campo hora de zarpe no puede estar vacio",Toast.LENGTH_LONG).show();
+                }else {
+                    showProgressDialog();
+                    EmbarcacionService jsonPlaceHolderApi = ServiceFactory.retrofit.create(EmbarcacionService.class);
+                    //username,password
+                    Call<RegisterResponse> call = jsonPlaceHolderApi.register(embarcacion,matricula,puertoZarpe,fechaZarpe,horaZarpe,puertoArribo,objetivo,
+                            comentario);
+                    call.enqueue(new Callback<RegisterResponse>() {
+                        public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+
+                            if(!response.isSuccessful()){
+                                Toast.makeText(getContext(),"Ocurrio un error en el servidor",Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                RegisterResponse embarcacionResponse = response.body();
+
+                                if(embarcacionResponse.getCode() == 1){
+                                    Toast.makeText(getContext(),"Se registro la embarcación correctamente", Toast.LENGTH_LONG).show();
+                                    txtFechaZarpado.setText("Clic aquí");
+                                    fechaZarpe = "";
+                                    txtHoraZarpado.setText("Clic aquí");
+                                    editTxtComentario.setText("");
+                                }else{
+                                    Toast.makeText(getContext(),"No se pudo registrar la embarcación", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                            hideProgressDialog();
+                            Toast.makeText(getContext(),"No se pudo registrar la embarcación",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         });
 
 
         return v;
     }
+
+    private void showProgressDialog(){
+        progressDialog = new ProgressDialog(getContext());
+
+        progressDialog.show();
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.getWindow().setBackgroundDrawableResource(
+                R.color.transparent
+        );
+        progressDialog.setCanceledOnTouchOutside(false);
+    }
+
+    private void hideProgressDialog(){
+        progressDialog.dismiss();
+    }
+
 }

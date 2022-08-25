@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 public interface UsuarioService {
 
-    @POST("usuario/login")
+    @POST("user/login")
     Call<UsuarioResponse> login(
             @Query("username") String username,
             @Query("password") String password

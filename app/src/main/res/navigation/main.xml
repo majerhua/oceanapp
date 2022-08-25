@@ -19,4 +19,9 @@
         android:name="com.app.oceanapp.InicioFragment"
         android:label="fragment_inicio"
         tools:layout="@layout/fragment_inicio" />
+    <fragment
+        android:id="@+id/salir"
+        android:name="com.app.oceanapp.SalirFragment"
+        android:label="fragment_salir"
+        tools:layout="@layout/fragment_salir" />
 </navigation>

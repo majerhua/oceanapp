@@ -21,10 +21,10 @@ public class SessionManagement {
     }
 
     public void saveSession(Usuario user){
-        int id = user.getCode();
+        int code = user.getCode();
         String name = user.getUsername();
         String rol = user.getRol();
-        editor.putInt(SESSION_KEY,id).commit();
+        editor.putInt(SESSION_KEY,code).commit();
         editor.putString(NAME_USER,name).commit();
         editor.putString(NAME_ROL,rol).commit();
     }
