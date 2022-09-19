@@ -10,9 +10,11 @@ public class SessionManagement {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String SHARED_PREF_NAME = "session";
-    String SESSION_KEY = "session_user";
+    String SESSION_KEY = "id";
     String NAME_USER = "name";
     String NAME_ROL = "rol";
+    String ZARPE_ID = "zarpe_id";
+    String LANCE_ID = "lance_id";
 
 
     public SessionManagement(Context contex){
@@ -21,10 +23,10 @@ public class SessionManagement {
     }
 
     public void saveSession(Usuario user){
-        int code = user.getCode();
+        int id = user.getId();
         String name = user.getUsername();
         String rol = user.getRol();
-        editor.putInt(SESSION_KEY,code).commit();
+        editor.putInt(SESSION_KEY,id).commit();
         editor.putString(NAME_USER,name).commit();
         editor.putString(NAME_ROL,rol).commit();
     }
@@ -39,6 +41,22 @@ public class SessionManagement {
 
     public String getRolUserSession(){
         return sharedPreferences.getString(NAME_ROL,"rol");
+    }
+
+    public void setZarpeIdSession(int id) {
+        editor.putInt(ZARPE_ID,id).commit();
+    }
+
+    public int getZarpeIdSession() {
+        return sharedPreferences.getInt(ZARPE_ID,0);
+    }
+
+    public void setLanceIdSession(int id) {
+        editor.putInt(LANCE_ID,id).commit();
+    }
+
+    public int getLanceIdSession() {
+        return sharedPreferences.getInt(LANCE_ID,0);
     }
 
     public int getIdUserSession(){

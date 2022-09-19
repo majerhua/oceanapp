@@ -87,7 +87,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(usuario.getCode() == 1){
                             SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
-                            sessionManagement.saveSession(new Usuario(usuario.getMessage(),usuario.getUsername(),usuario.getCode(), usuario.getRol()));
+                            sessionManagement.saveSession(new Usuario(usuario.getMessage(),usuario.getUsername(),usuario.getCode(), usuario.getRol()
+                            ,usuario.getId()));
                             moveToRegisterVessel();
                         }else{
                             Toast.makeText(LoginActivity.this,"USUARIO O PASSWORD INCORRECTO",

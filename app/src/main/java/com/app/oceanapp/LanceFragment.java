@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,14 +23,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.app.oceanapp.entity.Embarcacion;
 import com.app.oceanapp.entity.RegisterResponse;
-import com.app.oceanapp.persistencia.EmbarcacionPersistencia;
+import com.app.oceanapp.entity.Zarpe;
+import com.app.oceanapp.repositories.local.usuario.SessionManagement;
 import com.app.oceanapp.repositories.remote.ServiceFactory;
-import com.app.oceanapp.repositories.remote.request.EmbarcacionService;
 import com.app.oceanapp.repositories.remote.request.LanceService;
+import com.app.oceanapp.repositories.remote.request.ZarpeService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,12 +92,15 @@ public class LanceFragment extends Fragment {
     EditText editTextLatitud;
     EditText editTextLongitud;
     EditText editTextRumbo;
-    Spinner spnEmbarcacion;
+    TextView txtEmbarcacion;
     TextView txtMatriculaLance;
     DatePickerDialog.OnDateSetListener mDateSetListener;
     Button btnRegistrarLance;
     String fechaLance = "";
     String horaLance = "";
+    List<Zarpe> zarpes;
+    ArrayAdapter<Zarpe> adapterSpnZonaEmbarcacion;
+    List<Zarpe> zarps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,34 +114,52 @@ public class LanceFragment extends Fragment {
         editTextLatitud = v.findViewById(R.id.editTextLatitud);
         editTextLongitud = v.findViewById(R.id.editTextLongitud);
         editTextRumbo = v.findViewById(R.id.editTextRumbo);
-        spnEmbarcacion = v.findViewById(R.id.spnEmbarcacionLance);
-        txtMatriculaLance = v.findViewById(R.id.txtMatriculaLance);
+        txtEmbarcacion = v.findViewById(R.id.txtEmbarcacion);
+        txtMatriculaLance = v.findViewById(R.id.txtMatriculaEmbarcacion);
         btnRegistrarLance = v.findViewById(R.id.btnRegistrarLance);
 
-        ArrayAdapter<CharSequence> adapterSpnTurno = ArrayAdapter.createFromResource(getContext(), R.array.spnEmbarcacion,
-                android.R.layout.simple_spinner_item);
-        adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnEmbarcacion.setAdapter(adapterSpnTurno);
+        List<Zarpe> zarpes = new ArrayList<Zarpe>();
 
-        spnEmbarcacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String embarcacion = parentView.getItemAtPosition(position).toString();
+        adapterSpnZonaEmbarcacion =  new ArrayAdapter<Zarpe>(getContext(),  android.R.layout.simple_spinner_dropdown_item,
+                zarpes);
+        adapterSpnZonaEmbarcacion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                for(Embarcacion embar: EmbarcacionPersistencia.getEmbarcaciones()) {
-                    if (embar.getNombre().equals(embarcacion)) {
-                        txtMatriculaLance.setText(embar.getMatricula());
-                        break;
-                    }
+
+        ZarpeService jsonPlaceHolderApi = ServiceFactory.retrofit.create(ZarpeService.class);
+        showProgressDialog();
+
+        SessionManagement sessionManagement = new SessionManagement(getContext());
+
+        Call<List<Zarpe>> call = jsonPlaceHolderApi.get(sessionManagement.getZarpeIdSession());
+        call.enqueue(new Callback<List<Zarpe>>() {
+            public void onResponse(Call<List<Zarpe>> call, Response<List<Zarpe>> response) {
+
+                if(!response.isSuccessful()){
+                    Toast.makeText(getContext(),"No se pudo obtener la lista de embarcación",
+                            Toast.LENGTH_LONG).show();
                 }
+                else{
+
+                    zarps = response.body();
+
+                    if(!zarps.isEmpty()) {
+                        Zarpe zarpe =  zarps.get(0);
+
+                        txtEmbarcacion.setText(zarpe.getNombre());
+                        txtMatriculaLance.setText(zarpe.getMatricula());
+                    }
+
+                }
+                hideProgressDialog();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
+            public void onFailure(Call<List<Zarpe>> call, Throwable t) {
+                hideProgressDialog();
+                Toast.makeText(getContext(),"No se pudo obtener la lista de embarcación", Toast.LENGTH_LONG).show();
             }
-
         });
+
 
         txtFechaLance.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
@@ -185,6 +209,9 @@ public class LanceFragment extends Fragment {
             }
         };
 
+
+
+
         btnRegistrarLance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,8 +220,6 @@ public class LanceFragment extends Fragment {
                 String latitud = editTextLatitud.getText().toString();
                 String longitud = editTextLongitud.getText().toString();
                 String rumbo = editTextRumbo.getText().toString();
-                String embarcacion = spnEmbarcacion.getSelectedItem().toString();
-                String matricula = txtMatriculaLance.getText().toString();
 
                 if(numeroLance.equals("")) {
                     Toast.makeText(getContext(),"El campo numero de lance no puede estar vacio",Toast.LENGTH_LONG).show();
@@ -208,6 +233,8 @@ public class LanceFragment extends Fragment {
                     Toast.makeText(getContext(),"El campo longitud no puede estar vacio",Toast.LENGTH_LONG).show();
                 }else if(rumbo.equals("")){
                     Toast.makeText(getContext(),"El campo rumbo no puede estar vacio",Toast.LENGTH_LONG).show();
+                }else if(sessionManagement.getZarpeIdSession() == 0){
+                    Toast.makeText(getContext(),"Debe registrar un Zarpe de embarcación primero",Toast.LENGTH_LONG).show();
                 }else {
                     showProgressDialog();
                     LanceService jsonPlaceHolderApi = ServiceFactory.retrofit.create(LanceService.class);
@@ -218,8 +245,7 @@ public class LanceFragment extends Fragment {
                                                                                 latitud,
                                                                                 longitud,
                                                                                 rumbo,
-                                                                                embarcacion,
-                                                                                matricula);
+                                                                                sessionManagement.getZarpeIdSession());
                     call.enqueue(new Callback<RegisterResponse>() {
                         public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
 
@@ -231,7 +257,10 @@ public class LanceFragment extends Fragment {
 
                                 if(embarcacionResponse.getCode() == 1){
                                     Toast.makeText(getContext(),"Se registro lance correctamente", Toast.LENGTH_LONG).show();
+                                    SessionManagement sessionManagement = new SessionManagement(getContext());
+                                    sessionManagement.setLanceIdSession(embarcacionResponse.getId());
                                     clearFormFields();
+                                    Navigation.findNavController(v).navigate(R.id.action_lance_to_registrarFotoFragment);
                                 }else{
                                     Toast.makeText(getContext(),"No se pudo registrar el lance", Toast.LENGTH_LONG).show();
                                 }
@@ -261,6 +290,7 @@ public class LanceFragment extends Fragment {
         editTextLatitud.setText("");
         editTextLongitud.setText("");
         editTextRumbo.setText("");
+
     }
 
     private void showProgressDialog(){

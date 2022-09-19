@@ -111,8 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMatriculaLance"
-            app:layout_constraintVertical_bias="0.323" />
+            app:layout_constraintTop_toBottomOf="@+id/txtMatriculaEmbarcacion" />
 
         <TextView
             android:id="@+id/textView11"
@@ -209,30 +208,30 @@
             android:id="@+id/textView27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre de embarcación"
+            android:text="Embarcacion"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.145"
+            app:layout_constraintHorizontal_bias="0.118"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView24"
-            app:layout_constraintVertical_bias="0.106" />
+            app:layout_constraintVertical_bias="0.108" />
 
         <TextView
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Matricula de embarcación"
+            android:text="Matricula"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.149"
+            app:layout_constraintHorizontal_bias="0.102"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spnEmbarcacionLance"
-            app:layout_constraintVertical_bias="0.069" />
+            app:layout_constraintTop_toBottomOf="@+id/txtEmbarcacion"
+            app:layout_constraintVertical_bias="0.066" />
 
         <TextView
-            android:id="@+id/txtMatriculaLance"
+            android:id="@+id/txtMatriculaEmbarcacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="....."
@@ -241,17 +240,19 @@
             app:layout_constraintHorizontal_bias="0.12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView29"
-            app:layout_constraintVertical_bias="0.128" />
+            app:layout_constraintVertical_bias="0.089" />
 
-        <Spinner
-            android:id="@+id/spnEmbarcacionLance"
-            android:layout_width="316dp"
-            android:layout_height="35sp"
+        <TextView
+            android:id="@+id/txtEmbarcacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="....."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.273"
+            app:layout_constraintHorizontal_bias="0.119"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView27"
-            app:layout_constraintVertical_bias="0.088" />
+            app:layout_constraintVertical_bias="0.053" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

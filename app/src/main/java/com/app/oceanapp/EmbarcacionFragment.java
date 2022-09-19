@@ -23,12 +23,19 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.app.oceanapp.entity.Embarcacion;
+import com.app.oceanapp.entity.Puerto;
+import com.app.oceanapp.entity.PuertoZarpe;
 import com.app.oceanapp.entity.RegisterResponse;
-import com.app.oceanapp.persistencia.EmbarcacionPersistencia;
+import com.app.oceanapp.persistencia.PuertoZarpeDB;
+import com.app.oceanapp.repositories.local.usuario.SessionManagement;
 import com.app.oceanapp.repositories.remote.ServiceFactory;
 import com.app.oceanapp.repositories.remote.request.EmbarcacionService;
+import com.app.oceanapp.repositories.remote.request.ZarpeService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,6 +96,10 @@ public class EmbarcacionFragment extends Fragment {
     DatePickerDialog.OnDateSetListener mDateSetListener;
     Button btnRegistrar;
     String fechaZarpe = "";
+    Spinner spnEmbarcacion;
+    ArrayAdapter<Embarcacion> adapterEmbarcacion;
+    List<Embarcacion> embs;
+    List<Puerto> lstPuertoArribo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -148,56 +159,138 @@ public class EmbarcacionFragment extends Fragment {
             }
         };
 
-        Spinner spnEmbarcacion = v.findViewById(R.id.spnEmbarcacion);
-        ArrayAdapter<CharSequence> adapterSpnTurno = ArrayAdapter.createFromResource(getContext(), R.array.spnEmbarcacion,
-                android.R.layout.simple_spinner_item);
-        adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnEmbarcacion.setAdapter(adapterSpnTurno);
+        spnEmbarcacion = v.findViewById(R.id.spnEmbarcacion);
+
+        List<Embarcacion> embarcaciones = new ArrayList<Embarcacion>();
+
+        adapterEmbarcacion = new ArrayAdapter<Embarcacion>(getContext(),  android.R.layout.simple_spinner_dropdown_item, embarcaciones);
+        adapterEmbarcacion.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
+        spnEmbarcacion.setAdapter(adapterEmbarcacion);
+
+
+        EmbarcacionService jsonPlaceHolderApi = ServiceFactory.retrofit.create(EmbarcacionService.class);
+
+        showProgressDialog();
+
+        Call<List<Embarcacion>> call = jsonPlaceHolderApi.get();
+        call.enqueue(new Callback<List<Embarcacion>>() {
+            public void onResponse(Call<List<Embarcacion>> call, Response<List<Embarcacion>> response) {
+
+                if(!response.isSuccessful()){
+                    Toast.makeText(getContext(),"No se pudo obtener la lista de embarcación",
+                            Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                    embs = response.body();
+
+                    embs.add(0, new Embarcacion(0, "--Seleccionar--", "......"));
+
+                    adapterEmbarcacion.clear();
+                    adapterEmbarcacion.addAll(embs);
+                    adapterEmbarcacion.notifyDataSetChanged();
+                }
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<Embarcacion>> call, Throwable t) {
+                hideProgressDialog();
+                Toast.makeText(getContext(),"No se pudo obtener la lista de embarcación",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         spnEmbarcacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String embarcacion = parentView.getItemAtPosition(position).toString();
-
-                for(Embarcacion embar: EmbarcacionPersistencia.getEmbarcaciones()) {
-                    if (embar.getNombre().equals(embarcacion)) {
-                        txtMatricula.setText(embar.getMatricula());
-                        break;
-                    }
-                }
+                Embarcacion emb = (Embarcacion) parentView.getItemAtPosition(position);
+                txtMatricula.setText(emb.getMatricula());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
             }
-
         });
 
 
+
         Spinner spnPuertoZarpe = v.findViewById(R.id.spnPuertoZarpe);
-        ArrayAdapter<CharSequence> adapterPuertoZarpe = ArrayAdapter.createFromResource(getContext(), R.array.spnPuertoZarpe,
-                android.R.layout.simple_spinner_item);
-        adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterPuertoZarpe =  new ArrayAdapter<String>(getContext(),  android.R.layout.simple_spinner_dropdown_item,
+                new ArrayList<String>());
+        adapterPuertoZarpe.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnPuertoZarpe.setAdapter(adapterPuertoZarpe);
 
+
+        List<PuertoZarpe> lstPuertoZarpe = PuertoZarpeDB.getPuertosZarpe();
+        List<String> listStrPuertoZarpe = new ArrayList<String>();
+
+        listStrPuertoZarpe.add(0, "---Seleccionar--");
+
+        for(PuertoZarpe p: lstPuertoZarpe){
+            listStrPuertoZarpe.add(p.getNombre());
+        }
+
+        adapterPuertoZarpe.clear();
+        adapterPuertoZarpe.addAll(listStrPuertoZarpe);
+        adapterPuertoZarpe.notifyDataSetChanged();
+
+
         Spinner spnPuertoArribo = v.findViewById(R.id.spnPuertoArribo);
-        ArrayAdapter<CharSequence> adapterPuertoArribo = ArrayAdapter.createFromResource(getContext(), R.array.spnPuertoArribo,
-                android.R.layout.simple_spinner_item);
-        adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterPuertoArribo = new ArrayAdapter<String>(getContext(),  android.R.layout.simple_spinner_dropdown_item,
+                new ArrayList<String>(Arrays.asList("--Seleccionar--")));
+        adapterPuertoArribo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnPuertoArribo.setAdapter(adapterPuertoArribo);
+
+        spnPuertoZarpe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String strPuertoZarpe = (String) parentView.getItemAtPosition(position);
+                lstPuertoArribo = null;
+
+                for(PuertoZarpe p: lstPuertoZarpe){
+
+                    if(p.getNombre().equals(strPuertoZarpe)) {
+                        lstPuertoArribo = p.getPuertoArribo();
+                        break;
+                    }
+                }
+
+                List<String> lstStrPuertoArribo = new ArrayList<String>();
+
+                if(lstPuertoArribo != null){
+                    for(Puerto pt: lstPuertoArribo){
+                        lstStrPuertoArribo.add(pt.getNombre());
+                    }
+
+                    lstStrPuertoArribo.add(0, "--Seleccionar--");
+
+                    adapterPuertoArribo.clear();
+                    adapterPuertoArribo.addAll(lstStrPuertoArribo);
+                    adapterPuertoArribo.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
 
         Spinner spnObjetivo = v.findViewById(R.id.spnObjetivo);
         ArrayAdapter<CharSequence> adapterObjetivo = ArrayAdapter.createFromResource(getContext(), R.array.spnObjetivo,
                 android.R.layout.simple_spinner_item);
-        adapterSpnTurno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterObjetivo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnObjetivo.setAdapter(adapterObjetivo);
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String embarcacion = spnEmbarcacion.getSelectedItem().toString();
+                Embarcacion emb = (Embarcacion) spnEmbarcacion.getSelectedItem();
                 String matricula = txtMatricula.getText().toString();
                 String puertoZarpe = spnPuertoZarpe.getSelectedItem().toString();
                 String horaZarpe = txtHoraZarpado.getText().toString();
@@ -205,15 +298,22 @@ public class EmbarcacionFragment extends Fragment {
                 String objetivo = spnObjetivo.getSelectedItem().toString();
                 String comentario = editTxtComentario.getText().toString();
 
-                if(fechaZarpe.equals("")) {
+                if(emb.getId() == 0) {
+                    Toast.makeText(getContext(),"Debe seleccionar una opción en el campo 'Embarcación'.",Toast.LENGTH_LONG).show();
+                }else if(puertoZarpe.equals("--Seleccionar--")){
+                    Toast.makeText(getContext(),"Debe seleccionar una opción en el campo 'Puerto de zarpe'.",Toast.LENGTH_LONG).show();
+                }
+                else if(fechaZarpe.equals("")) {
                     Toast.makeText(getContext(),"El campo fecha de zarpe no puede estar vacio",Toast.LENGTH_LONG).show();
                 }else if(horaZarpe.equals("Clic aquí")) {
                     Toast.makeText(getContext(),"El campo hora de zarpe no puede estar vacio",Toast.LENGTH_LONG).show();
-                }else {
+                }else if(puertoArribo.equals("--Seleccionar--")){
+                    Toast.makeText(getContext(),"Debe seleccionar una opción en el campo 'Puerto de arribo'",Toast.LENGTH_LONG).show();
+                } else{
                     showProgressDialog();
-                    EmbarcacionService jsonPlaceHolderApi = ServiceFactory.retrofit.create(EmbarcacionService.class);
+                    ZarpeService jsonPlaceHolderApi = ServiceFactory.retrofit.create(ZarpeService.class);
                     //username,password
-                    Call<RegisterResponse> call = jsonPlaceHolderApi.register(embarcacion,matricula,puertoZarpe,fechaZarpe,horaZarpe,puertoArribo,objetivo,
+                    Call<RegisterResponse> call = jsonPlaceHolderApi.register(emb.getId(),puertoZarpe,fechaZarpe,horaZarpe,puertoArribo,objetivo,
                             comentario);
                     call.enqueue(new Callback<RegisterResponse>() {
                         public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
@@ -230,6 +330,19 @@ public class EmbarcacionFragment extends Fragment {
                                     fechaZarpe = "";
                                     txtHoraZarpado.setText("Clic aquí");
                                     editTxtComentario.setText("");
+                                    spnEmbarcacion.setSelection(0);
+                                    spnPuertoZarpe.setSelection(0);
+
+                                    List<String> lstStrPuertoArribo = new ArrayList<String>();
+                                    lstStrPuertoArribo.add(0, "--Seleccionar--");
+
+                                    adapterPuertoArribo.clear();
+                                    adapterPuertoArribo.addAll(lstStrPuertoArribo);
+                                    adapterPuertoArribo.notifyDataSetChanged();
+
+                                    SessionManagement sessionManagement = new SessionManagement(getContext());
+                                    sessionManagement.setZarpeIdSession(embarcacionResponse.getId());
+
                                 }else{
                                     Toast.makeText(getContext(),"No se pudo registrar la embarcación", Toast.LENGTH_LONG).show();
                                 }

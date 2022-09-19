@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GaleriaFotoFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25sp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="right"
+            android:paddingRight="20dp"
+            >
+
+            <Button
+                android:id="@+id/btnNuevaFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="190dp"
+                android:textColor="@color/white"
+                android:height="50dp"
+                android:text="Procesar Fotos"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="4dp"
+                android:text="Número de lance:"
+                />
+            <Spinner
+                android:id="@+id/spnLance"
+                android:layout_width="110sp"
+                android:layout_height="30sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp" />
+            <Button
+                android:id="@+id/btnBuscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="130dp"
+                android:height="50dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="15dp"
+                android:text="Seleccionar"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Galeria Imagenes"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            >
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_marginTop="10dp"
+            android:id="@+id/listGaleriaFotosTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="#CCCCCC"
+            android:dividerHeight="1dp"
+            android:paddingLeft="2dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

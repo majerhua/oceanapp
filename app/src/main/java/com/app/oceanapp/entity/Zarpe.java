@@ -1,12 +1,12 @@
 package com.app.oceanapp.entity;
 
-public class Embarcacion {
-    int id;
-    String nombre;
-    String matricula;
+public class Zarpe {
 
+    private int id;
+    private String nombre;
+    private String matricula;
 
-    public Embarcacion(int id, String nombre, String matricula) {
+    public Zarpe(int id, String nombre, String matricula) {
         this.id = id;
         this.nombre = nombre;
         this.matricula = matricula;
@@ -40,4 +40,5 @@ public class Embarcacion {
     public String toString() {
         return this.nombre;
     }
+
 }

@@ -13,7 +13,11 @@
         android:id="@+id/lance"
         android:name="com.app.oceanapp.LanceFragment"
         android:label="fragment_lance"
-        tools:layout="@layout/fragment_lance" />
+        tools:layout="@layout/fragment_lance" >
+        <action
+            android:id="@+id/action_lance_to_registrarFotoFragment"
+            app:destination="@id/registrarFotoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/inicio"
         android:name="com.app.oceanapp.InicioFragment"
@@ -24,4 +28,27 @@
         android:name="com.app.oceanapp.SalirFragment"
         android:label="fragment_salir"
         tools:layout="@layout/fragment_salir" />
+    <fragment
+        android:id="@+id/registrarFotoFragment"
+        android:name="com.app.oceanapp.RegistrarFotoFragment"
+        android:label="fragment_registrar_foto"
+        tools:layout="@layout/fragment_registrar_foto" >
+        <action
+            android:id="@+id/action_registrarFotoFragment_to_eliminarFotoFragment"
+            app:destination="@id/eliminarFotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eliminarFotoFragment"
+        android:name="com.app.oceanapp.EliminarFotoFragment"
+        android:label="fragment_eliminar_foto"
+        tools:layout="@layout/fragment_eliminar_foto" >
+        <action
+            android:id="@+id/action_eliminarFotoFragment_to_registrarFotoFragment"
+            app:destination="@id/registrarFotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/galeriaFotos"
+        android:name="com.app.oceanapp.GaleriaFotoFragment"
+        android:label="fragment_galeria_foto"
+        tools:layout="@layout/fragment_galeria_foto" />
 </navigation>

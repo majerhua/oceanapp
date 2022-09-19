@@ -6,12 +6,23 @@ public class Usuario {
     private String username;
     private int code;
     private String rol;
+    private int id;
 
-    public Usuario(String message, String username, int code, String rol) {
+
+    public Usuario(String message, String username, int code, String rol, int id) {
         this.message = message;
         this.username = username;
         this.code = code;
         this.rol = rol;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMessage() {

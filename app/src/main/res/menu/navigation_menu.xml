@@ -10,12 +10,17 @@
     <item
         android:id="@+id/embarcacion"
         android:icon="@drawable/ic_approval"
-        android:title="Embarcación"
+        android:title="Zarpe de embarcación"
         />
     <item
         android:id="@+id/lance"
         android:icon="@drawable/ic_all_inclusive"
         android:title="Lance"
+        />
+    <item
+        android:id="@+id/galeriaFotos"
+        android:icon="@drawable/ic_photo_album"
+        android:title="Preprocesamiento"
         />
     <item
         android:id="@+id/salir"
