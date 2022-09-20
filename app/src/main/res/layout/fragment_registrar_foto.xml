@@ -17,15 +17,23 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_gravity="right"
-            android:paddingRight="20dp"
+            android:layout_gravity="center_horizontal"
             >
-
+            <Button
+                android:id="@+id/btnAdjuntarFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="150dp"
+                android:height="50dp"
+                android:layout_marginLeft="15dp"
+                android:text="Adjuntar Foto"
+                android:textSize="12dp" />
             <Button
                 android:id="@+id/btnNuevaFoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:width="190dp"
+                android:layout_marginLeft="15dp"
+                android:width="150dp"
                 android:height="50dp"
                 android:text="Tomar Foto"
                 android:textSize="12dp" />

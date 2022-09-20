@@ -1,12 +1,17 @@
 package com.app.oceanapp;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -21,13 +26,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.app.oceanapp.constantes.Utils;
 import com.app.oceanapp.entity.Foto;
 import com.app.oceanapp.entity.RegisterResponse;
 import com.app.oceanapp.repositories.local.usuario.SessionManagement;
 import com.app.oceanapp.repositories.remote.ServiceFactory;
 import com.app.oceanapp.repositories.remote.request.FotoService;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +100,8 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
     ProgressDialog progressDialog;
     AdapterListViewGaleriaFoto adapter;
     List<Foto> listFoto;
+    String imageUploadMethod = "";
+    String path = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,6 +113,7 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
         listViewGaleriaFoto = v.findViewById(R.id.listGaleriaFotos);
 
         Button btnNuevaFoto = v.findViewById(R.id.btnNuevaFoto);
+        Button btnAdjuntarFoto = v.findViewById(R.id.btnAdjuntarFoto);
 
 
         listFoto = new ArrayList<Foto>();
@@ -136,7 +147,27 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
         btnNuevaFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imageUploadMethod = Utils.upload_camara;
                 openCamara();
+            }
+        });
+
+        btnAdjuntarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(ContextCompat.checkSelfPermission(getContext().getApplicationContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    imageUploadMethod = Utils.upload_attach;
+                    Intent iGallery = new Intent();
+                    iGallery.setType("image/*");
+                    iGallery.setAction(Intent.ACTION_GET_CONTENT);
+
+                    startActivityForResult(iGallery, 1);
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                }
             }
         });
 
@@ -167,7 +198,41 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
             //Bundle extras = data.getExtras();
             //Bitmap imgBitmap = BitmapFactory.decodeFile(rutaImagen);
             showProgressDialog();
-            File file = new File(rutaImagen);
+            File file = null;
+
+            if(imageUploadMethod.equals(Utils.upload_camara)) {
+                file = new File(rutaImagen);
+            } else {
+                Uri selectedImageUri = data.getData();
+
+                Bitmap thumbnail = null;
+                try {
+                    thumbnail
+                            = MediaStore.Images.Media.getBitmap(
+                            getActivity().getContentResolver(),
+                            selectedImageUri);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+                File destination = new File(Environment.getExternalStorageDirectory(),"temp.jpg");
+                FileOutputStream fo;
+                try {
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                file = new File(destination.getAbsolutePath());
+
+
+            }
+
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             MultipartBody.Part image = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
             RequestBody lance_id = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(sessionManagement.getLanceIdSession()));
@@ -204,6 +269,30 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
             });
         }else{
             rutaImagen = "";
+        }
+    }
+
+    public static File bitmapToFile(Context context, Bitmap bitmap, String fileNameToSave) { // File name like "image.png"
+        //create a file to write bitmap data
+        File file = null;
+        try {
+            file = new File(Environment.getExternalStorageDirectory() + File.separator + fileNameToSave);
+            file.createNewFile();
+
+//Convert bitmap to byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0 , bos); // YOU can also save it in JPEG
+            byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+            return file;
+        }catch (Exception e){
+            e.printStackTrace();
+            return file; // it will return null
         }
     }
 
