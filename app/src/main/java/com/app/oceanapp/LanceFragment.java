@@ -108,7 +108,6 @@ public class LanceFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_lance, container, false);
 
-        editTextNumeroLance = v.findViewById(R.id.editTextNumeroLance);
         txtFechaLance = v.findViewById(R.id.txtFechaLance);
         txtHoraLance = v.findViewById(R.id.txtHoraLance);
         editTextLatitud = v.findViewById(R.id.editTextLatitud);
@@ -216,14 +215,11 @@ public class LanceFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String numeroLance = editTextNumeroLance.getText().toString();
                 String latitud = editTextLatitud.getText().toString();
                 String longitud = editTextLongitud.getText().toString();
                 String rumbo = editTextRumbo.getText().toString();
 
-                if(numeroLance.equals("")) {
-                    Toast.makeText(getContext(),"El campo numero de lance no puede estar vacio",Toast.LENGTH_LONG).show();
-                }else if(fechaLance.equals("")) {
+                if(fechaLance.equals("")) {
                     Toast.makeText(getContext(),"El campo fecha de lance no puede estar vacio",Toast.LENGTH_LONG).show();
                 }else if(horaLance.equals("")) {
                     Toast.makeText(getContext(),"El campo hora de zarpe no puede estar vacio",Toast.LENGTH_LONG).show();
@@ -239,7 +235,6 @@ public class LanceFragment extends Fragment {
                     showProgressDialog();
                     LanceService jsonPlaceHolderApi = ServiceFactory.retrofit.create(LanceService.class);
                     Call<RegisterResponse> call = jsonPlaceHolderApi.register(
-                                                                                numeroLance,
                                                                                 fechaLance,
                                                                                 horaLance,
                                                                                 latitud,
@@ -283,7 +278,6 @@ public class LanceFragment extends Fragment {
     }
 
     private void clearFormFields() {
-        editTextNumeroLance.setText("");
         txtFechaLance.setText("Clic aquí");
         fechaLance = "";
         txtHoraLance.setText("Clic aquí");

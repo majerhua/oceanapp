@@ -13,7 +13,6 @@ import retrofit2.http.Query;
 public interface LanceService {
     @POST("lance")
     Call<RegisterResponse> register(
-            @Query("numeroLance") String numeroLance,
             @Query("fechaLance") String fechaLance,
             @Query("horaLance") String horaLance,
             @Query("latitud") String latitud,

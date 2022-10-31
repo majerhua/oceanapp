@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -112,7 +111,7 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
 
         listViewGaleriaFoto = v.findViewById(R.id.listGaleriaFotos);
 
-        Button btnNuevaFoto = v.findViewById(R.id.btnNuevaFoto);
+        Button btnNuevaFoto = v.findViewById(R.id.btnProcesarFoto);
         Button btnAdjuntarFoto = v.findViewById(R.id.btnAdjuntarFoto);
 
 
@@ -195,8 +194,6 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
     public void onActivityResult(int requestCode,int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == -1) {
-            //Bundle extras = data.getExtras();
-            //Bitmap imgBitmap = BitmapFactory.decodeFile(rutaImagen);
             showProgressDialog();
             File file = null;
 
@@ -218,7 +215,8 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
 
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-                File destination = new File(Environment.getExternalStorageDirectory(),"temp.jpg");
+                File destination = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES),"temp.jpg");
                 FileOutputStream fo;
                 try {
                     fo = new FileOutputStream(destination);
@@ -229,8 +227,6 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
                 }
 
                 file = new File(destination.getAbsolutePath());
-
-
             }
 
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);

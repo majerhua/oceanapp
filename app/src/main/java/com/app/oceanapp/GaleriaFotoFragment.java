@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -78,7 +79,7 @@ public class GaleriaFotoFragment extends Fragment {
         }
     }
 
-    private ListView listViewGaleriaFoto;
+    ListView listViewGaleriaFoto;
     AdapterListViewGaleriaFotoTwo adapter;
     List<Foto> listFoto;
     SessionManagement sessionManagement;
@@ -87,6 +88,7 @@ public class GaleriaFotoFragment extends Fragment {
     ProgressDialog progressDialog;
     Button btnBuscar;
     List<Lance> listLances;
+    Button btnProcesarFoto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +100,7 @@ public class GaleriaFotoFragment extends Fragment {
 
         listViewGaleriaFoto = v.findViewById(R.id.listGaleriaFotosTwo);
         btnBuscar = v.findViewById(R.id.btnBuscar);
+        btnProcesarFoto = v.findViewById(R.id.btnProcesarFoto);
 
         listFoto = new ArrayList<Foto>();
         adapter = new AdapterListViewGaleriaFotoTwo(getContext(),listFoto);
@@ -133,6 +136,9 @@ public class GaleriaFotoFragment extends Fragment {
 
         showProgressDialog();
 
+        Toast.makeText(getContext(),String.valueOf(sessionManagement.getZarpeIdSession()),
+                Toast.LENGTH_LONG).show();
+
         LanceService jsonPlaceHolderApi_2 = ServiceFactory.retrofit.create(LanceService.class);
         Call<List<Lance>> call_2 = jsonPlaceHolderApi_2.getByZarpeId(sessionManagement.getZarpeIdSession());
         call_2.enqueue(new Callback<List<Lance>>() {
@@ -156,8 +162,24 @@ public class GaleriaFotoFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Lance>> call_2, Throwable t) {
                 hideProgressDialog();
-                Toast.makeText(getContext(),"No se pudo obtener la lista de lances",
+                Toast.makeText(getContext(),t.getMessage(),
                         Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btnProcesarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String ids = "";
+                for(int i=0; i< listFoto.size(); i++){
+                    System.out.println("Photo =>"+listFoto.get(i).isSelect());
+                    if(listFoto.get(i).isSelect()) {
+                        ids += String.valueOf(listFoto.get(i).getId())+",";
+                    }
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("id", ids.substring(0,ids.length() - 1));
+                Navigation.findNavController(v).navigate(R.id.action_galeriaFotos_to_resultadoProcesamientoFragment,bundle);
             }
         });
 

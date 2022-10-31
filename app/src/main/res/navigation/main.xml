@@ -50,5 +50,18 @@
         android:id="@+id/galeriaFotos"
         android:name="com.app.oceanapp.GaleriaFotoFragment"
         android:label="fragment_galeria_foto"
-        tools:layout="@layout/fragment_galeria_foto" />
+        tools:layout="@layout/fragment_galeria_foto" >
+        <action
+            android:id="@+id/action_galeriaFotos_to_resultadoProcesamientoFragment"
+            app:destination="@id/resultadoProcesamientoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultadoProcesamientoFragment"
+        android:name="com.app.oceanapp.ResultadoProcesamientoFragment"
+        android:label="fragment_resultado_procesamiento"
+        tools:layout="@layout/fragment_resultado_procesamiento" >
+        <action
+            android:id="@+id/action_resultadoProcesamientoFragment_to_galeriaFotos"
+            app:destination="@id/galeriaFotos" />
+    </fragment>
 </navigation>

@@ -2,6 +2,7 @@ package com.app.oceanapp.repositories.remote.request;
 
 import com.app.oceanapp.entity.Embarcacion;
 import com.app.oceanapp.entity.Foto;
+import com.app.oceanapp.entity.Procesamiento;
 import com.app.oceanapp.entity.RegisterResponse;
 
 import java.util.List;
@@ -32,4 +33,8 @@ public interface FotoService {
 
     @DELETE("delete-image")
     Call<RegisterResponse> eliminarFoto(@Query("id") int id);
+
+
+    @POST("process-photos")
+    Call<List<Procesamiento>> processPhotos(@Query("ids") String id);
 }

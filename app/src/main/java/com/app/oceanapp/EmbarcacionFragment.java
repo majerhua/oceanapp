@@ -312,7 +312,6 @@ public class EmbarcacionFragment extends Fragment {
                 } else{
                     showProgressDialog();
                     ZarpeService jsonPlaceHolderApi = ServiceFactory.retrofit.create(ZarpeService.class);
-                    //username,password
                     Call<RegisterResponse> call = jsonPlaceHolderApi.register(emb.getId(),puertoZarpe,fechaZarpe,horaZarpe,puertoArribo,objetivo,
                             comentario);
                     call.enqueue(new Callback<RegisterResponse>() {

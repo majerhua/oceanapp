@@ -50,6 +50,8 @@ public class MenuActivity extends AppCompatActivity {
 
         TextView navUsername = (TextView) headerView.findViewById(R.id.name_user);
         TextView txtRol = (TextView) headerView.findViewById(R.id.txtRol);
+        TextView txtZarpeActual = (TextView) headerView.findViewById(R.id.txtZarpeActual);
+
         navUsername.setText(sessionManagement.getNameUseSession());
 
         String rol = "";
@@ -63,7 +65,11 @@ public class MenuActivity extends AppCompatActivity {
         }
 
         txtRol.setText(rol);
-
+        if(sessionManagement.getZarpeIdSession() == 0){
+            txtZarpeActual.setText("No esta en ningún Zarpe");
+        }else {
+            txtZarpeActual.setText("Esta en #Zarpe " + String.valueOf(sessionManagement.getZarpeIdSession()));
+        }
 
     }
 }

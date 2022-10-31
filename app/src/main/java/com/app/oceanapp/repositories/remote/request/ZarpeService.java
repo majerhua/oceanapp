@@ -26,4 +26,7 @@ public interface ZarpeService {
     @GET("zarpe")
     Call<List<Zarpe>> get(@Query("zarpe_id") int zarpe_id);
 
+    @POST("zarpe/close")
+    Call<RegisterResponse> close(@Query("zarpe_id") int zarpe_id);
+
 }
