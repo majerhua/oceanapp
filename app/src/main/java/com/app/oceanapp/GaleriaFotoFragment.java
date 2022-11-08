@@ -150,7 +150,6 @@ public class GaleriaFotoFragment extends Fragment {
                 }
                 else{
                     listLances = response.body();
-                    listLances.add(0, new Lance(0, "Todo"));
 
                     adapterLance.clear();
                     adapterLance.addAll(listLances);

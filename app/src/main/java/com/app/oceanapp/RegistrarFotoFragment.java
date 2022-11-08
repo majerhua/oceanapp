@@ -216,7 +216,7 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
                 File destination = new File(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES),"temp.jpg");
+                        Environment.DIRECTORY_PICTURES),"test.jpg");
                 FileOutputStream fo;
                 try {
                     fo = new FileOutputStream(destination);
