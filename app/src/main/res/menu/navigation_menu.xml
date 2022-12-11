@@ -23,6 +23,11 @@
         android:title="Preprocesamiento"
         />
     <item
+        android:id="@+id/cerrarZarpe"
+        android:icon="@drawable/ic_closed"
+        android:title="Cierre Zarpe"
+        />
+    <item
         android:id="@+id/salir"
         android:icon="@drawable/ic_exit"
         android:title="Salir"

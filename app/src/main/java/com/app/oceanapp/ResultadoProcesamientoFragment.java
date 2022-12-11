@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.app.oceanapp.entity.Foto;
 import com.app.oceanapp.entity.Procesamiento;
+import com.app.oceanapp.entity.ProcesamientoBody;
+import com.app.oceanapp.entity.ResponseBody;
 import com.app.oceanapp.entity.Usuario;
 import com.app.oceanapp.entity.UsuarioResponse;
 import com.app.oceanapp.repositories.local.usuario.SessionManagement;
@@ -28,6 +30,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,17 +99,21 @@ public class ResultadoProcesamientoFragment extends Fragment {
 
         showProgressDialog();
 
-        FotoService jsonPlaceHolderApi = ServiceFactory.retrofit.create(FotoService.class);
+        Retrofit retrofit =
+                new Retrofit.Builder()
+                        .baseUrl("https://uxfq4m5evc.execute-api.us-east-1.amazonaws.com/dev/v1/api/")
+                        .addConverterFactory(GsonConverterFactory.create()).build();
 
-        Call<List<Procesamiento>> call = jsonPlaceHolderApi.processPhotos(id);
-        call.enqueue(new Callback<List<Procesamiento>>() {
-            public void onResponse(Call<List<Procesamiento>> call, Response<List<Procesamiento>> response) {
+        FotoService jsonPlaceHolderApi = retrofit.create(FotoService.class);
+        Call<ResponseBody> call = jsonPlaceHolderApi.processPhotos(id);
+        call.enqueue(new Callback<ResponseBody>() {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 if(!response.isSuccessful()){
                     Toast.makeText(getContext(),"OCURRIO UN ERROR EN EL SERVIDOR",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    for(Procesamiento procesamiento: response.body()){
+                    for(Procesamiento procesamiento: response.body().getData()){
                         listProcesamiento.add(procesamiento);
                     }
 
@@ -115,7 +123,7 @@ public class ResultadoProcesamientoFragment extends Fragment {
                 hideProgressDialog();
             }
             @Override
-            public void onFailure(Call<List<Procesamiento>> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hideProgressDialog();
                 Toast.makeText(getContext(),"ERROR: "+t.getMessage(),Toast.LENGTH_LONG).show();
             }

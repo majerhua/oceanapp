@@ -342,6 +342,8 @@ public class EmbarcacionFragment extends Fragment {
                                     SessionManagement sessionManagement = new SessionManagement(getContext());
                                     sessionManagement.setZarpeIdSession(embarcacionResponse.getId());
 
+                                    ((MenuActivity)getActivity()).changeTextZarpe();
+
                                 }else{
                                     Toast.makeText(getContext(),"No se pudo registrar la embarcación", Toast.LENGTH_LONG).show();
                                 }

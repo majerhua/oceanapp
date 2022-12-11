@@ -84,33 +84,40 @@ public class CerrarZarpeFragment extends Fragment {
         btnCerrarZarpe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ZarpeService jsonPlaceHolderApi = ServiceFactory.retrofit.create(ZarpeService.class);
-                Call<RegisterResponse> call = jsonPlaceHolderApi.close(sessionManagement.getZarpeIdSession());
-                call.enqueue(new Callback<RegisterResponse>() {
-                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
 
-                        if(!response.isSuccessful()){
-                            Toast.makeText(getContext(),"Ocurrio un error en el servidor",Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            RegisterResponse embarcacionResponse = response.body();
+                if(sessionManagement.getZarpeIdSession() == 0) {
+                    Toast.makeText(getContext(),"El zarpe ya fue cerrado.",Toast.LENGTH_LONG).show();
+                } else {
+                    showProgressDialog();
+                    ZarpeService jsonPlaceHolderApi = ServiceFactory.retrofit.create(ZarpeService.class);
+                    Call<RegisterResponse> call = jsonPlaceHolderApi.close(sessionManagement.getZarpeIdSession());
+                    call.enqueue(new Callback<RegisterResponse>() {
+                        public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
 
-                            if(embarcacionResponse.getCode() == 1){
-                                Toast.makeText(getContext(),"Se cerro el Zarpe correctamente", Toast.LENGTH_LONG).show();
-                                sessionManagement.setZarpeIdSession(0);
-                            }else{
-                                Toast.makeText(getContext(),"No se pudo cerrar el Zarpe", Toast.LENGTH_LONG).show();
+                            if(!response.isSuccessful()){
+                                Toast.makeText(getContext(),"Ocurrio un error en el servidor",Toast.LENGTH_LONG).show();
                             }
+                            else{
+                                RegisterResponse embarcacionResponse = response.body();
+
+                                if(embarcacionResponse.getCode() == 1){
+                                    Toast.makeText(getContext(),"Se cerro el Zarpe correctamente", Toast.LENGTH_LONG).show();
+                                    sessionManagement.setZarpeIdSession(0);
+
+                                }else{
+                                    Toast.makeText(getContext(),"No se pudo cerrar el Zarpe", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            hideProgressDialog();
                         }
-                        hideProgressDialog();
-                    }
-                    @Override
-                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
-                        hideProgressDialog();
-                        Toast.makeText(getContext(),"No se pudo cerrar el Zarpe",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                            hideProgressDialog();
+                            Toast.makeText(getContext(),"No se pudo cerrar el Zarpe",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         });
 

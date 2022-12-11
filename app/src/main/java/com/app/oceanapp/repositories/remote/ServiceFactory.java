@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceFactory {
-    private static final String BASE_URL_DESARROLLO = "https://wsappocean.herokuapp.com/api/";
+    private static final String BASE_URL_DESARROLLO = "https://wsocean.herokuapp.com/api/";
 
     public static Retrofit retrofit =
             new Retrofit.Builder()

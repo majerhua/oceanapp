@@ -33,6 +33,11 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        changeTextZarpe();
+
+    }
+
+    public void changeTextZarpe() {
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setItemIconTintList(null);
 
@@ -66,10 +71,9 @@ public class MenuActivity extends AppCompatActivity {
 
         txtRol.setText(rol);
         if(sessionManagement.getZarpeIdSession() == 0){
-            txtZarpeActual.setText("No esta en ningún Zarpe");
+            txtZarpeActual.setText("No existe Zarpe");
         }else {
             txtZarpeActual.setText("Esta en #Zarpe " + String.valueOf(sessionManagement.getZarpeIdSession()));
         }
-
     }
 }

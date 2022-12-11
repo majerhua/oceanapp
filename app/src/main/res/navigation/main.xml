@@ -64,4 +64,9 @@
             android:id="@+id/action_resultadoProcesamientoFragment_to_galeriaFotos"
             app:destination="@id/galeriaFotos" />
     </fragment>
+    <fragment
+        android:id="@+id/cerrarZarpe"
+        android:name="com.app.oceanapp.CerrarZarpeFragment"
+        android:label="fragment_cerrar_zarpe"
+        tools:layout="@layout/fragment_cerrar_zarpe" />
 </navigation>

@@ -3,13 +3,16 @@ package com.app.oceanapp.repositories.remote.request;
 import com.app.oceanapp.entity.Embarcacion;
 import com.app.oceanapp.entity.Foto;
 import com.app.oceanapp.entity.Procesamiento;
+import com.app.oceanapp.entity.ProcesamientoBody;
 import com.app.oceanapp.entity.RegisterResponse;
+import com.app.oceanapp.entity.ResponseBody;
 
 import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -35,6 +38,6 @@ public interface FotoService {
     Call<RegisterResponse> eliminarFoto(@Query("id") int id);
 
 
-    @POST("process-photos")
-    Call<List<Procesamiento>> processPhotos(@Query("ids") String id);
+    @POST("process-image")
+    Call<ResponseBody> processPhotos(@Query("ids") String ids);
 }
