@@ -242,7 +242,7 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
                 @Override
                 public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                     if(!response.isSuccessful()){
-                        Toast.makeText(getActivity(),"NO SE PUDO CARGAR IMAGEN",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),"NO SE PUDO CARGAR LA IMAGEN",Toast.LENGTH_LONG).show();
                     }else{
                         RegisterResponse res = response.body();
 
@@ -251,7 +251,7 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
                             adapter.notifyDataSetChanged();
                             Toast.makeText(getActivity(),"SE CARGO LA IMAGEN CORRECTAMENTE",Toast.LENGTH_LONG).show();
                         }else {
-                            Toast.makeText(getActivity(),"NO SE PUDO CARGAR IMAGEN",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),"NO SE PUDO CARGAR LA IMAGEN",Toast.LENGTH_LONG).show();
                         }
                     }
                     hideProgressDialog();
@@ -260,7 +260,8 @@ public class RegistrarFotoFragment extends Fragment implements AdapterView.OnIte
                 @Override
                 public void onFailure(Call<RegisterResponse> call_2, Throwable t) {
                     hideProgressDialog();
-                    Toast.makeText(getContext(),"ERROR: "+t.getMessage(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(),"ERROR: "+t.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"NO SE PUDO CARGAR LA IMAGEN",Toast.LENGTH_LONG).show();
                 }
             });
         }else{

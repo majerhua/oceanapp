@@ -169,16 +169,27 @@ public class GaleriaFotoFragment extends Fragment {
         btnProcesarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String ids = "";
+                int cont = 0;
                 for(int i=0; i< listFoto.size(); i++){
                     System.out.println("Photo =>"+listFoto.get(i).isSelect());
                     if(listFoto.get(i).isSelect()) {
                         ids += String.valueOf(listFoto.get(i).getId())+",";
+                        cont++;
                     }
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("id", ids.substring(0,ids.length() - 1));
-                Navigation.findNavController(v).navigate(R.id.action_galeriaFotos_to_resultadoProcesamientoFragment,bundle);
+
+                if(cont > 3) {
+                    Toast.makeText(getContext(),"NO PUEDE PROCESAR MAS DE 3 FOTOS",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Navigation.findNavController(v).navigate(R.id.action_galeriaFotos_to_resultadoProcesamientoFragment,bundle);
+
+                }
+
             }
         });
 

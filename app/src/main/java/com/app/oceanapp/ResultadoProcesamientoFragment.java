@@ -101,7 +101,7 @@ public class ResultadoProcesamientoFragment extends Fragment {
 
         Retrofit retrofit =
                 new Retrofit.Builder()
-                        .baseUrl("https://uxfq4m5evc.execute-api.us-east-1.amazonaws.com/dev/v1/api/")
+                        .baseUrl("https://sjoq9cew7k.execute-api.us-east-1.amazonaws.com/dev/v1/api/")
                         .addConverterFactory(GsonConverterFactory.create()).build();
 
         FotoService jsonPlaceHolderApi = retrofit.create(FotoService.class);
@@ -125,7 +125,7 @@ public class ResultadoProcesamientoFragment extends Fragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 hideProgressDialog();
-                Toast.makeText(getContext(),"ERROR: "+t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"NO SE PUDO PROCESAR TODAS LAS FOTOS",Toast.LENGTH_LONG).show();
             }
         });
 
